@@ -1,0 +1,285 @@
+---
+author: "Sangho Lee"
+date: 5/17/2024
+callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
+editor_options: 
+  chunk_output_type: console
+---
+
+I'm going to analyze customer flow and behavior at Rogers market, which uses Amazon’s Just Walk Out technology, for my MGTA 456 - Supply Chain Analytics course at UC San Diego, MSBA program. The project involves creating an inventory build-up diagram and examining customer entry and exit patterns to determine the number of customers in the store each minute, entries in 15-minute intervals, and the average shopping duration using Little’s Law. This will help identify peak shopping times and optimize store operations to improve the shopping experience.
+
+*<span style="color:green">What is Amazon's Just Walk Out Technology?: Amazon's "Just Walk Out" technology enables a shopping experience where customers can enter a store, pick up the items they want, and leave without the need to check out at a traditional cashier station. It enables to track the consumer's shopping behavior and store the data</span>*
+
+## Data
+### Load the data into the enviorment
+
+I will begin by loading the necessary packages in both Python and R to handle data manipulation and analysis. I will then explore and explain the variables within the dataset, detailing their types, purposes, and any noteworthy aspects. 
+
+```{python}
+import pandas as pd
+import numpy as np
+import pyrsm as rsm
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+import seaborn as sns
+```
+
+```{python, include = FALSE}
+rogers = pd.read_csv("Rogers_022824.csv")
+```
+
+```{r, message = FALSE, warning=FALSE}
+library(tidyverse)
+library(magrittr)
+library(scales)
+library(data.table)
+library(reticulate)
+```
+
+```{r}
+rogers <- read.csv("Rogers_022824.csv")
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+rogers %>%
+  DT::datatable(
+    extensions = 'Buttons',
+    options = list(
+      dom = 'Blfrtip',
+      pageLength = 5,
+      scrollX = TRUE
+    )
+  )
+```
+
+### Data Explanation
+- store_id: Identifies the specific store where transactions occur.
+- purchase_datetime: The timestamp when the purchase was made.
+- product_title: The name of the product purchased.
+- sku: Stock Keeping Unit, a unique identifier for each product.
+- currency: Denotes the currency used for the transaction.
+- price: The price of the individual product.
+- quantity: The number of units of the product purchased in each transaction.
+- total_price: Calculated as the product of price and quantity.
+- type_of_transaction: Specifies whether the record is an order, return, or other type of transaction.
+- transaction_id: A unique identifier for each transaction.
+- transaction_datetime: Sometimes used interchangeably or in complement with purchase_datetime.
+- session_id: Identifies the shopping session.
+- product_category: Categorizes the product into broader groups.
+- product_subcategory: Provides a more detailed classification within the broader product category.
+- entry/exit_method: Indicates how the customer entered or exited the store (e.g., via an app).
+- trip_duration_mins: The total time spent by the customer from entry to exit, expressed in minutes.
+- group_size: The number of people in the customer's group.
+
+
+<br>
+
+#### Task #1: I will create an inventory build-up diagram to visualize the number of customers present in the store at each minute from 7AM to 11:00PM. This diagram will be constructed by processing the data available up to 11PM, while ignoring any entries beyond this time. Additionally, I will calculate the average inventory level, which will represent the average number of customers in the store throughout the specified timeframe. This analysis will help in understanding customer flow and store capacity utilization during operational hours.
+
+
+### Inventory build-up diagram
+
+```{python, warning = FALSE, message = FALSE}
+rogers['purchase_datetime'] = pd.to_datetime(rogers['purchase_datetime'], errors='coerce')
+
+rogers = rogers[(rogers['purchase_datetime'].dt.time >= pd.to_datetime('07:00:00').time()) & 
+            (rogers['purchase_datetime'].dt.time <= pd.to_datetime('23:00:00').time())]
+
+rogers.sort_values('purchase_datetime', inplace=True)
+customer_count_per_minute = rogers['purchase_datetime'].dt.floor('T').value_counts().sort_index()
+
+plt.figure(figsize=(15, 7))
+plt.plot(customer_count_per_minute.index, customer_count_per_minute.values, marker='o', linestyle='-', color='b')
+plt.title('Customer Presence in Store Every Minute (7AM to 11PM)')
+plt.xlabel('Time')
+plt.ylabel('Number of Customers')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+- Peak Times: There are noticeable spikes in customer presence, which are likely indicative of peak shopping times. These spikes can be seen intermittently but seem to become more frequent and higher as the day progresses, especially in late afternoon and early evening. Understanding these peak times can help in optimizing staff allocation and resource management to better handle customer service and checkout processes during busy periods.
+
+- Dips in Customer Presence: The lower points or dips between the peaks could represent slower periods when fewer customers are in the store. These times might be opportune for scheduling restocks, deep cleaning, or staff breaks without impacting customer service.
+
+- Overall Flow Pattern: The overall pattern suggests a typical shopping curve with increases towards the midday and evening. These patterns are crucial for planning day-to-day operations and can be used to predict customer flow for future planning, such as promotional events or adjusting store hours.
+
+### Average Inventory Level Calculation (Minute)
+
+```{python}
+average_inventory_level = customer_count_per_minute.mean()
+average_inventory_level
+
+```
+
+- The average inventory level of 5.92 customers represents the average number of customers present in the store at any given minute throughout the observed time period from 7AM to 11PM. 
+
+<br><br>
+
+#### Task #2: I will plot the number of customers who entered the store in every 15-minute interval from 7AM to 11:00PM. This will involve segmenting the data into intervals such as 7:00-7:15AM, 7:15-7:30AM, etc., and plotting the customer counts for each period. Following this, I will calculate the average number of customers who entered the store per hour. This analysis will provide insights into peak entry times and help in managing staffing and logistics efficiently during operational hours.
+
+```{r}
+customer_entries_15min <- rogers %>%
+  mutate(purchase_datetime = mdy_hm(purchase_datetime)) %>% 
+  filter(hour(purchase_datetime) >= 7 & hour(purchase_datetime) < 23) %>% 
+  mutate(interval = floor_date(purchase_datetime, "15 minutes")) %>%
+  count(interval)
+
+customer_entries_15min %>% 
+  head(10) %>% 
+  knitr::kable()
+
+```
+
+```{r}
+customer_entries_15min %>% 
+  ggplot(aes(x = interval, y = n)) +
+  geom_line(color = "blue", linewidth = 1) +  # Using 'linewidth' instead of 'size'
+  geom_point(color = "blue", size = 3) +  
+  labs(title = "Customer Entries Every 15 Minutes (7AM to 11PM)",
+       x = "Time",
+       y = "Number of Entries") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_datetime(labels = date_format("%H:%M"), breaks = date_breaks("1 hour"))
+
+```
+
+
+
+- The plot titled "Customer Entries Every 15 Minutes (7AM to 11PM)" visualizes the number of customers entering the store in 15-minute intervals throughout the day, from 7:00 AM to 11:00 PM. 
+
+- Time of Day Variability: The plot clearly shows variability in the number of customer entries throughout the day. There are noticeable peaks and troughs, indicating fluctuations in customer traffic at different times.
+
+- Morning Activity: Starting at 7:00 AM, there's an initial increase in customer entries which peaks around 8:00 AM. This could be indicative of morning shoppers who stop by the store possibly before heading to work or after starting their day.
+
+- Midday Peak: There are significant peaks between 11:00 AM and 2:00 PM, which correspond to lunchtime hours. This increase might suggest that many customers visit the store during their lunch breaks or while running midday errands.
+
+- Afternoon Consistency: After the midday peak, the entries show a consistent pattern with frequent ups and downs but generally maintaining a high level of customer entries. This pattern could represent steady store traffic through the afternoon.
+
+- Evening Rush: Starting around 4:00 PM and extending to about 7:00 PM, there is another pronounced peak, which could be associated with people shopping after work or in preparation for the evening.
+
+
+
+
+
+### Average Inventory Level Calculation (Per Hour)
+
+```{python}
+rogers['purchase_datetime'] = pd.to_datetime(rogers['purchase_datetime'], errors='coerce')
+rogers['hour'] = rogers['purchase_datetime'].dt.hour
+customers_per_hour = rogers.groupby('hour')['transaction_id'].nunique() / rogers['purchase_datetime'].dt.date.nunique()
+total_per_hour_average = customers_per_hour.mean()
+total_per_hour_average
+
+```
+
+- The average number of customer entries every 15 minutes is 72.5625. This figure represents the mean number of customers entering the store during each 15-minute interval throughout the observed time period from 7AM to 11PM. 
+
+
+<br><br>
+
+#### Task #3:I will compute the average of `trip_duration_mins`, taking into account the group size. Using the results from the previous tasks related to customer entries per interval and average inventory levels, I will apply Little's Law to calculate the average flow time. This approach will allow me to confirm the consistency of the average flow time calculated using Little's Law with the average `trip_duration_mins` obtained directly from the data. This validation step ensures the reliability of the model and the calculations derived from it.
+
+<br>
+
+##### Step 1: Calculate the Weighted Average of Trip Duration
+
+```{python}
+average_trip_duration = rogers.groupby('group_size')['trip_duration_mins'].mean().reset_index()
+average_trip_duration
+
+```
+
+
+<br>
+
+##### Step 2: Apply Little’s Law
+
+```{python}
+L = 5.92
+entries_per_1hour = 290.25
+
+# Calculate lambda (arrival rate per minute)
+lambda_per_minute = entries_per_1hour / 60
+
+# Applying Little's Law to calculate W (average time in the system)
+W_littles_law = L / lambda_per_minute
+
+lambda_per_minute, W_littles_law
+```
+
+
+
+The given data provides an average number of customers, \(L\), as 5.92 customers. The rate of customer entries every 1 hour is given as 290.25. To find the average arrival rate per minute, \(\lambda\), we can convert the 1-hour rate to a per-minute rate by dividing the number of customers by the number of minutes:
+
+$$ \lambda = \frac{290.25 \text{ customers}}{60 \text{ minutes}} = 4.83 \text{ customers per minute} $$
+
+With \(\lambda\) calculated, we can use Little's Law, which states that the long-term average number in the queue \(L\) is equal to the long-term average effective arrival rate \(\lambda\) multiplied by the average time a customer spends in the system \(W\). Therefore, \(W\) can be expressed as:
+
+$$ W = \frac{L}{\lambda} = \frac{5.92 \text{ customers}}{4.8375 \text{ customers per minute}} \approx 1.224 \text{ minutes} $$
+
+This calculation shows that on average, a customer spends approximately 1.224 minutes in the system.
+
+
+```{python}
+average_trip_duration
+
+group_sizes = np.array([1, 2, 3, 4])
+trip_durations = np.array([2.563121, 4.503399, 3.089077, 2.225000])
+
+# Calculate the weighted average trip duration
+weighted_average_duration = np.sum(group_sizes * trip_durations) / np.sum(group_sizes)
+
+# Display both W_littles_law and the weighted average to compare
+weighted_average_duration, W_littles_law
+```
+
+- Weighted Average Trip Duration: 2.97 minutes
+- Calculated 𝑊 using Little's Law: 1.22 minutes
+
+
+### Analysis of Discrepancy in Customer Trip Duration: Insights into Amazon’s “Just Walk Out” Technology
+- Background: We conducted an analysis to compare the average trip duration of customers in our store using two approaches:
+
+1. Weighted Average Trip Duration: Calculated directly from observational data based on group sizes.
+2. Average Flow Time Using Little’s Law: Derived from the average number of customers in the system and the customer arrival rate.
+
+The results are as follows:
+- Weighted Average Trip Duration: 2.97 minutes
+- Calculated 𝑊 Using Little’s Law: 1.22 minutes
+
+
+#### Discrepancy and Potential Limitations of “Just Walk Out” Technology
+The significant discrepancy between the weighted average trip duration (2.97 minutes) and the calculated 𝑊 (1.22 minutes) points to several insights and potential limitations of Amazon’s “Just Walk Out” technology:
+
+1. Operational Bottlenecks and Inefficiencies
+- Insight: The longer observed trip duration indicates potential inefficiencies in our store operations. These inefficiencies could be causing customers to spend more time in the system than expected, which might not be fully addressed by the “Just Walk Out” technology.
+- Limitation: While the technology is designed to streamline the checkout process, it may not address other bottlenecks within the store, such as navigating aisles, finding products, or waiting for assistance.
+
+2. Impact of Group Dynamics
+- Insight: Group size has a significant impact on the time spent in the store. Larger groups are likely to have more complex decision-making processes, contributing to longer trip durations.
+- Limitation: The “Just Walk Out” technology primarily focuses on individual transactions. It may not be as effective in managing the dynamics of groups, where multiple people may be making decisions, requiring more time and coordination.
+
+3. Enhanced Customer Engagement and Experience
+- Insight: While longer durations may indicate inefficiencies, they could also reflect higher levels of customer engagement with our products and services.
+- Limitation: The technology may not fully capture the nuances of customer engagement, such as time spent browsing or interacting with products, which can contribute to longer stays. Enhancing customer experience requires addressing these factors beyond just streamlining the checkout process.
+
+4. Strategic Resource Allocation
+- Insight: The discrepancy suggests a need for more strategic resource allocation, particularly during peak times when the store is likely to be busier.
+- Limitation: The technology does not address the need for dynamic resource allocation based on real-time customer flow and behavior. Manual adjustments to staffing and store layout may still be necessary to manage peak periods effectively.
+
+5. Data-Driven Decision Making
+- Insight: The discrepancy highlights the importance of using accurate, real-time data to inform business decisions.
+- Limitation: While “Just Walk Out” technology collects data on purchases and movement, it may not provide comprehensive insights into all aspects of the customer journey, such as the reasons behind longer trip durations or specific pain points within the store.
+
+Conclusion
+- The discrepancy between the theoretical and actual average trip durations points to several areas where Amazon’s “Just Walk Out” technology might face limitations. While it significantly enhances the checkout process, it does not fully address other operational inefficiencies, group dynamics, customer engagement, strategic resource allocation, and the need for comprehensive data-driven decision-making.
+- To improve overall store efficiency and customer satisfaction, it is essential to complement “Just Walk Out” technology with additional strategies, such as optimizing store layout, enhancing customer service, and continuously monitoring and adjusting operations based on real-time data. By addressing these limitations, we can better align operational capabilities with customer expectations and behaviors, leading to a more efficient and satisfying shopping experience.
+
+
+#### *<span style="color:blue">Besides that, by looking at this inventory chart, this analysis using Little’s Law helps identify operational bottlenecks, such as inefficiencies in store layout and group dynamics. It also underscores the need for strategic resource allocation and comprehensive data-driven decision-making to enhance overall efficiency and customer satisfaction. Additionally, the store people inventory analysis can pinpoint peak shopping times and optimal staffing levels, leading to improved navigation and assistance within the store.</span>*
+
+

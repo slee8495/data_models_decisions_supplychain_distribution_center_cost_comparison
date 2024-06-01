@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.506">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>hw_supplychain3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="hw_supplychain3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hw_supplychain3_files/libs/quarto-html/quarto.js"></script>
+<script src="hw_supplychain3_files/libs/quarto-html/popper.min.js"></script>
+<script src="hw_supplychain3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="hw_supplychain3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="hw_supplychain3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hw_supplychain3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="hw_supplychain3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="hw_supplychain3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="hw_supplychain3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="product-3" class="level1">
+<h1>Product 3</h1>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="load-the-data-into-the-enviorment" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-data-into-the-enviorment">Load the data into the enviorment</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>product3 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Homework3_data.xlsx"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sheet =</span> <span class="st">"Product3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>product3 <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Region1</th>
+<th style="text-align: right;">Region2</th>
+<th style="text-align: right;">Region3</th>
+<th style="text-align: right;">Region4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11.76</td>
+<td style="text-align: right;">8.88</td>
+<td style="text-align: right;">13.25</td>
+<td style="text-align: right;">13.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9.00</td>
+<td style="text-align: right;">10.45</td>
+<td style="text-align: right;">8.67</td>
+<td style="text-align: right;">11.30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8.31</td>
+<td style="text-align: right;">10.83</td>
+<td style="text-align: right;">11.02</td>
+<td style="text-align: right;">9.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9.97</td>
+<td style="text-align: right;">8.69</td>
+<td style="text-align: right;">9.40</td>
+<td style="text-align: right;">13.39</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9.95</td>
+<td style="text-align: right;">10.68</td>
+<td style="text-align: right;">14.84</td>
+<td style="text-align: right;">12.62</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10.49</td>
+<td style="text-align: right;">10.00</td>
+<td style="text-align: right;">11.24</td>
+<td style="text-align: right;">9.58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3.64</td>
+<td style="text-align: right;">4.51</td>
+<td style="text-align: right;">4.27</td>
+<td style="text-align: right;">8.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14.68</td>
+<td style="text-align: right;">15.03</td>
+<td style="text-align: right;">17.73</td>
+<td style="text-align: right;">11.45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8.34</td>
+<td style="text-align: right;">8.05</td>
+<td style="text-align: right;">9.97</td>
+<td style="text-align: right;">8.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3.35</td>
+<td style="text-align: right;">10.43</td>
+<td style="text-align: right;">8.02</td>
+<td style="text-align: right;">6.53</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="explanation-of-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="explanation-of-the-data">Explanation of the Data:</h2>
+<p>Columns:</p>
+<ul>
+<li>Region1: Daily demand for Product 3 in Regional Distribution Center 1.</li>
+<li>Region2: Daily demand for Product 3 in Regional Distribution Center 2.</li>
+<li>Region3: Daily demand for Product 3 in Regional Distribution Center 3.</li>
+<li>Region4: Daily demand for Product 3 in Regional Distribution Center 4.</li>
+</ul>
+<p>Rows:</p>
+<ul>
+<li>Each row represents a specific day in the year. For example, the first row shows the demand on day 1, the second row on day 2, and so on.</li>
+</ul>
+<p>Periodic Review Policy:</p>
+<ul>
+<li>Review Interval: 6 days</li>
+<li>Lead Time: 5 days</li>
+<li>Cycle Service Level: 95%</li>
+</ul>
+<p>Cost Parameters:</p>
+<ul>
+<li>Unit Holding Cost: $0.15 per unit per day</li>
+<li>Inbound Transportation Cost (Regional): $0.09 per unit</li>
+<li>Outbound Transportation Cost (Regional): $0.10 per unit</li>
+<li>Inbound Transportation Cost (National): $0.05 per unit</li>
+<li>Outbound Transportation Cost (National): $0.24 per unit</li>
+</ul>
+<p><br><br></p>
+<section id="now-we-are-going-to-calculate-the-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="now-we-are-going-to-calculate-the-metrics"><em>Now we are going to calculate the metrics</em></h3>
+</section>
+</section>
+<section id="oul-order-up-to-level" class="level2">
+<h2 class="anchored" data-anchor-id="oul-order-up-to-level">1) OUL (Order Up to Level)</h2>
+<section id="calculate-the-average-daily-demand-d-for-each-region" class="level5">
+<h5 class="anchored" data-anchor-id="calculate-the-average-daily-demand-d-for-each-region">1. Calculate the Average Daily Demand (D) for Each Region:</h5>
+<p><span class="math display">\[
+D = \frac{\sum_{i=1}^{n} \text{Demand}_i}{n}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average daily demand (D) for each region</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>D_region1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region1)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>D_region2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region2)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>D_region3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region3)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>D_region4 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region4)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>D_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_Daily_Demand =</span> <span class="fu">c</span>(D_region1, D_region2, D_region3, D_region4)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>D_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Region Average_Daily_Demand
+1 Region1             9.781189
+2 Region2             9.675070
+3 Region3             9.812385
+4 Region4             9.889413</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="determine-the-standard-deviation-of-daily-demand-σ-for-each-region" class="level5">
+<h5 class="anchored" data-anchor-id="determine-the-standard-deviation-of-daily-demand-σ-for-each-region">2. Determine the Standard Deviation of Daily Demand (σ) for Each Region:</h5>
+<p><span class="math display">\[
+\sigma = \sqrt{\frac{\sum_{i=1}^{n} (\text{Demand}_i - D)^2}{n-1}}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate standard deviation of daily demand (σ) for each region</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sigma_region1 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region1)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sigma_region2 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region2)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sigma_region3 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region3)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sigma_region4 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region4)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>sigma_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Standard_Deviation =</span> <span class="fu">c</span>(sigma_region1, sigma_region2, sigma_region3, sigma_region4)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>sigma_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Region Standard_Deviation
+1 Region1           3.109725
+2 Region2           3.065133
+3 Region3           3.400357
+4 Region4           3.193302</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="calculate-the-demand-during-lead-time-plus-review-period-lr" class="level5">
+<h5 class="anchored" data-anchor-id="calculate-the-demand-during-lead-time-plus-review-period-lr">3. Calculate the Demand During Lead Time Plus Review Period (L+R):</h5>
+<p><span class="math display">\[
+L = 5 \text{ days (Lead Time)}
+\]</span></p>
+<p><span class="math display">\[
+R = 6 \text{ days (Review Interval)}
+\]</span></p>
+<p><span class="math display">\[
+D_{L+R} = D \times (L + R)
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Lead time in days</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># Review interval in days</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate demand during lead time plus review period (D_{L+R}) for each region</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>D_L_R_region1 <span class="ot">&lt;-</span> D_region1 <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>D_L_R_region2 <span class="ot">&lt;-</span> D_region2 <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>D_L_R_region3 <span class="ot">&lt;-</span> D_region3 <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>D_L_R_region4 <span class="ot">&lt;-</span> D_region4 <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>D_L_R_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Demand_During_L_R =</span> <span class="fu">c</span>(D_L_R_region1, D_L_R_region2, D_L_R_region3, D_L_R_region4)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>D_L_R_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Region Demand_During_L_R
+1 Region1          107.5931
+2 Region2          106.4258
+3 Region3          107.9362
+4 Region4          108.7835</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="calculate-the-safety-stock" class="level5">
+<h5 class="anchored" data-anchor-id="calculate-the-safety-stock">4. Calculate the Safety Stock:</h5>
+<ul>
+<li>For a 95% service level, the Z-score is approximately 1.65.</li>
+</ul>
+<p><span class="math display">\[
+\text{Safety Stock} = Z \times \sigma \times \sqrt{L + R}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the Z-score for a 95% service level</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate safety stock for each region</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>safety_stock_region1 <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma_region1 <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>safety_stock_region2 <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma_region2 <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>safety_stock_region3 <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma_region3 <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>safety_stock_region4 <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma_region4 <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>safety_stock_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Safety_Stock =</span> <span class="fu">c</span>(safety_stock_region1, safety_stock_region2, safety_stock_region3, safety_stock_region4)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>safety_stock_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Region Safety_Stock
+1 Region1     16.96467
+2 Region2     16.72141
+3 Region3     18.55018
+4 Region4     17.42062</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="combine-these-to-find-the-order-up-to-level-oul" class="level5">
+<h5 class="anchored" data-anchor-id="combine-these-to-find-the-order-up-to-level-oul">5. Combine These to Find the Order Up to Level (OUL):</h5>
+<p><span class="math display">\[
+\text{OUL} = D_{L+R} + \text{Safety Stock}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Order Up to Level (OUL) for each region</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>OUL_region1 <span class="ot">&lt;-</span> D_L_R_region1 <span class="sc">+</span> safety_stock_region1</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>OUL_region2 <span class="ot">&lt;-</span> D_L_R_region2 <span class="sc">+</span> safety_stock_region2</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>OUL_region3 <span class="ot">&lt;-</span> D_L_R_region3 <span class="sc">+</span> safety_stock_region3</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>OUL_region4 <span class="ot">&lt;-</span> D_L_R_region4 <span class="sc">+</span> safety_stock_region4</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>OUL_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUL =</span> <span class="fu">c</span>(OUL_region1, OUL_region2, OUL_region3, OUL_region4)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>OUL_values <span class="sc">%&gt;%</span> </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">OUL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">124.5577</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">123.1472</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">126.4864</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">126.2042</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="average-order-quantity" class="level2">
+<h2 class="anchored" data-anchor-id="average-order-quantity">2) Average Order Quantity</h2>
+<p><span class="math display">\[ Average Order Quantity=D×R \]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average order quantity for each region</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>average_order_quantity_region1 <span class="ot">&lt;-</span> D_region1 <span class="sc">*</span> R</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>average_order_quantity_region2 <span class="ot">&lt;-</span> D_region2 <span class="sc">*</span> R</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>average_order_quantity_region3 <span class="ot">&lt;-</span> D_region3 <span class="sc">*</span> R</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>average_order_quantity_region4 <span class="ot">&lt;-</span> D_region4 <span class="sc">*</span> R</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>average_order_quantity_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_Order_Quantity =</span> <span class="fu">c</span>(average_order_quantity_region1, average_order_quantity_region2, average_order_quantity_region3, average_order_quantity_region4)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>average_order_quantity_values <span class="sc">%&gt;%</span> </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Average_Order_Quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">58.68713</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">58.05042</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">58.87431</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">59.33648</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+<section id="calculate-the-average-cycle-stock" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-average-cycle-stock">3) Calculate the Average Cycle Stock</h2>
+<p><span class="math display">\[
+\text{Average Cycle Stock} = \frac{\text{Average Order Quantity}}{2}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average cycle stock for each region</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_region1 <span class="ot">&lt;-</span> average_order_quantity_region1 <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_region2 <span class="ot">&lt;-</span> average_order_quantity_region2 <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_region3 <span class="ot">&lt;-</span> average_order_quantity_region3 <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_region4 <span class="ot">&lt;-</span> average_order_quantity_region4 <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_Cycle_Stock =</span> <span class="fu">c</span>(average_cycle_stock_region1, average_cycle_stock_region2, average_cycle_stock_region3, average_cycle_stock_region4)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_values <span class="sc">%&gt;%</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Average_Cycle_Stock</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">29.34357</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">29.02521</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">29.43716</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">29.66824</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+<section id="calculate-the-average-inventory" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-average-inventory">4) Calculate the Average Inventory</h2>
+<p><span class="math display">\[
+\text{Average Inventory} = \text{Average Cycle Stock} + \text{Safety Stock}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average inventory for each region</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>average_inventory_region1 <span class="ot">&lt;-</span> average_cycle_stock_region1 <span class="sc">+</span> safety_stock_region1</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>average_inventory_region2 <span class="ot">&lt;-</span> average_cycle_stock_region2 <span class="sc">+</span> safety_stock_region2</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>average_inventory_region3 <span class="ot">&lt;-</span> average_cycle_stock_region3 <span class="sc">+</span> safety_stock_region3</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>average_inventory_region4 <span class="ot">&lt;-</span> average_cycle_stock_region4 <span class="sc">+</span> safety_stock_region4</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>average_inventory_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_Inventory =</span> <span class="fu">c</span>(average_inventory_region1, average_inventory_region2, average_inventory_region3, average_inventory_region4)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>average_inventory_values <span class="sc">%&gt;%</span> </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Average_Inventory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">46.30824</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">45.74662</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">47.98734</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">47.08886</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+<section id="calculate-the-daily-average-inventory-holding-cost" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-daily-average-inventory-holding-cost">5) Calculate the Daily average inventory holding cost</h2>
+<p><span class="math display">\[
+\text{Daily Average Inventory Holding Cost} = \text{Average Inventory} \times \text{Holding Cost per Unit per Day}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Holding cost per unit per day</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>holding_cost_per_unit_per_day <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the daily average inventory holding cost for each region</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_region1 <span class="ot">&lt;-</span> average_inventory_region1 <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_region2 <span class="ot">&lt;-</span> average_inventory_region2 <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_region3 <span class="ot">&lt;-</span> average_inventory_region3 <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_region4 <span class="ot">&lt;-</span> average_inventory_region4 <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Daily_Average_Inventory_Holding_Cost =</span> <span class="fu">c</span>(daily_average_inventory_holding_cost_region1, daily_average_inventory_holding_cost_region2, daily_average_inventory_holding_cost_region3, daily_average_inventory_holding_cost_region4)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_values <span class="sc">%&gt;%</span> </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Daily_Average_Inventory_Holding_Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">6.946236</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">6.861993</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">7.198100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">7.063329</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+<section id="calculate-the-daily-average-transportation-cost" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-daily-average-transportation-cost">6) Calculate the Daily Average Transportation Cost</h2>
+<p><span class="math display">\[
+\text{Daily Average Transportation Cost} = \text{Average Order Quantity} \times (\text{Inbound Cost} + \text{Outbound Cost})
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transportation costs</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>inbound_cost <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>outbound_cost <span class="ot">&lt;-</span> <span class="fl">0.10</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the daily average transportation cost for each region</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_region1 <span class="ot">&lt;-</span> average_order_quantity_region1 <span class="sc">*</span> (inbound_cost <span class="sc">+</span> outbound_cost)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_region2 <span class="ot">&lt;-</span> average_order_quantity_region2 <span class="sc">*</span> (inbound_cost <span class="sc">+</span> outbound_cost)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_region3 <span class="ot">&lt;-</span> average_order_quantity_region3 <span class="sc">*</span> (inbound_cost <span class="sc">+</span> outbound_cost)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_region4 <span class="ot">&lt;-</span> average_order_quantity_region4 <span class="sc">*</span> (inbound_cost <span class="sc">+</span> outbound_cost)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Daily_Average_Transportation_Cost =</span> <span class="fu">c</span>(daily_average_transportation_cost_region1, daily_average_transportation_cost_region2, daily_average_transportation_cost_region3, daily_average_transportation_cost_region4)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_values <span class="sc">%&gt;%</span> </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Daily_Average_Transportation_Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">11.15056</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">11.02958</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">11.18612</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">11.27393</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br></p>
+</section>
+<section id="calculate-the-total-daily-cost" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-total-daily-cost">7) Calculate the Total Daily Cost</h2>
+<p><span class="math display">\[
+\text{Total Daily Cost} = \text{Daily Average Inventory Holding Cost} + \text{Daily Average Transportation Cost}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the total daily cost for each region</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>total_daily_cost_region1 <span class="ot">&lt;-</span> daily_average_inventory_holding_cost_region1 <span class="sc">+</span> daily_average_transportation_cost_region1</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>total_daily_cost_region2 <span class="ot">&lt;-</span> daily_average_inventory_holding_cost_region2 <span class="sc">+</span> daily_average_transportation_cost_region2</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>total_daily_cost_region3 <span class="ot">&lt;-</span> daily_average_inventory_holding_cost_region3 <span class="sc">+</span> daily_average_transportation_cost_region3</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>total_daily_cost_region4 <span class="ot">&lt;-</span> daily_average_inventory_holding_cost_region4 <span class="sc">+</span> daily_average_transportation_cost_region4</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame to store the results</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>total_daily_cost_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="fu">c</span>(<span class="st">"Region1"</span>, <span class="st">"Region2"</span>, <span class="st">"Region3"</span>, <span class="st">"Region4"</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Total_Daily_Cost =</span> <span class="fu">c</span>(total_daily_cost_region1, total_daily_cost_region2, total_daily_cost_region3, total_daily_cost_region4)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>total_daily_cost_values <span class="sc">%&gt;%</span> </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Region</th>
+<th style="text-align: right;">Total_Daily_Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Region1</td>
+<td style="text-align: right;">18.09679</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region2</td>
+<td style="text-align: right;">17.89157</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Region3</td>
+<td style="text-align: right;">18.38422</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region4</td>
+<td style="text-align: right;">18.33726</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br><br><br></p>
+<p>Based on these calculations from the data, the goal of this project includes a comparative evaluation between the regional distribution centers and a hypothetical national distribution center to determine the most cost-effective distribution strategy. The ultimate goal is to identify potential cost savings and provide recommendations on whether to maintain regional centers or consolidate into a national distribution center.</p>
+<p>To achieve this, we will take the following steps:</p>
+<ul>
+<li>Calculate and compare key inventory metrics for regional and national distribution centers.</li>
+<li>Assess the total daily costs associated with each distribution strategy.</li>
+<li>Provide recommendations based on the cost-effectiveness of regional versus national distribution centers.</li>
+</ul>
+<hr>
+<p>we need to calculate these metrics for the hypothetical national distribution center.</p>
+<p>The transportation costs for the regional distribution center are: - Inbound transportation cost: $0.09 per unit - Outbound transportation cost: $0.10 per unit</p>
+<p>The transportation costs for the national distribution center are: - Inbound transportation cost: $0.05 per unit - Outbound transportation cost: $0.24 per unit</p>
+<section id="regional-distribution-centers" class="level3">
+<h3 class="anchored" data-anchor-id="regional-distribution-centers">Regional Distribution Centers</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants for regional distribution centers</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Lead time in days</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># Review interval in days</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>)  <span class="co"># Z-score for 95% service level</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>holding_cost_per_unit_per_day <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>inbound_cost_regional <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>outbound_cost_regional <span class="ot">&lt;-</span> <span class="fl">0.10</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average daily demand (D) and standard deviation (sigma) for each region</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>D_region1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region1)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>D_region2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region2)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>D_region3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region3)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>D_region4 <span class="ot">&lt;-</span> <span class="fu">mean</span>(product3<span class="sc">$</span>Region4)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>sigma_region1 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region1)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>sigma_region2 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region2)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>sigma_region3 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region3)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>sigma_region4 <span class="ot">&lt;-</span> <span class="fu">sd</span>(product3<span class="sc">$</span>Region4)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics for each region</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>calculate_metrics <span class="ot">&lt;-</span> <span class="cf">function</span>(D, sigma) {</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  D_L_R <span class="ot">&lt;-</span> D <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  safety_stock <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  OUL <span class="ot">&lt;-</span> D_L_R <span class="sc">+</span> safety_stock</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  average_order_quantity <span class="ot">&lt;-</span> D <span class="sc">*</span> R</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  average_cycle_stock <span class="ot">&lt;-</span> average_order_quantity <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  average_inventory <span class="ot">&lt;-</span> average_cycle_stock <span class="sc">+</span> safety_stock</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  daily_average_inventory_holding_cost <span class="ot">&lt;-</span> average_inventory <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  daily_average_transportation_cost <span class="ot">&lt;-</span> average_order_quantity <span class="sc">*</span> (inbound_cost_regional <span class="sc">+</span> outbound_cost_regional)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  total_daily_cost <span class="ot">&lt;-</span> daily_average_inventory_holding_cost <span class="sc">+</span> daily_average_transportation_cost</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(OUL, average_order_quantity, average_cycle_stock, safety_stock, average_inventory,</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>           daily_average_inventory_holding_cost, daily_average_transportation_cost, total_daily_cost))</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>metrics_region1 <span class="ot">&lt;-</span> <span class="fu">calculate_metrics</span>(D_region1, sigma_region1)</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>metrics_region2 <span class="ot">&lt;-</span> <span class="fu">calculate_metrics</span>(D_region2, sigma_region2)</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>metrics_region3 <span class="ot">&lt;-</span> <span class="fu">calculate_metrics</span>(D_region3, sigma_region3)</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>metrics_region4 <span class="ot">&lt;-</span> <span class="fu">calculate_metrics</span>(D_region4, sigma_region4)</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>regional_distribution_centers_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Order Up to Level (OUL)"</span>, <span class="st">"Average Order Quantity"</span>, <span class="st">"Average Cycle Stock"</span>, </span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Average Safety Stock"</span>, <span class="st">"Average Inventory"</span>, <span class="st">"Daily Average Inventory Holding Cost"</span>, </span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Daily Average Transportation Cost"</span>, <span class="st">"Total Daily Cost"</span>),</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region1 =</span> metrics_region1,</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region2 =</span> metrics_region2,</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region3 =</span> metrics_region3,</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region4 =</span> metrics_region4</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>regional_distribution_centers_values <span class="sc">%&gt;%</span> </span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 46%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: right;">Region1</th>
+<th style="text-align: right;">Region2</th>
+<th style="text-align: right;">Region3</th>
+<th style="text-align: right;">Region4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Order Up to Level (OUL)</td>
+<td style="text-align: right;">124.557749</td>
+<td style="text-align: right;">123.147182</td>
+<td style="text-align: right;">126.48642</td>
+<td style="text-align: right;">126.204159</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Order Quantity</td>
+<td style="text-align: right;">58.687131</td>
+<td style="text-align: right;">58.050420</td>
+<td style="text-align: right;">58.87431</td>
+<td style="text-align: right;">59.336476</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Cycle Stock</td>
+<td style="text-align: right;">29.343566</td>
+<td style="text-align: right;">29.025210</td>
+<td style="text-align: right;">29.43716</td>
+<td style="text-align: right;">29.668238</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Safety Stock</td>
+<td style="text-align: right;">16.964674</td>
+<td style="text-align: right;">16.721412</td>
+<td style="text-align: right;">18.55018</td>
+<td style="text-align: right;">17.420620</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Inventory</td>
+<td style="text-align: right;">46.308240</td>
+<td style="text-align: right;">45.746622</td>
+<td style="text-align: right;">47.98734</td>
+<td style="text-align: right;">47.088858</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Daily Average Inventory Holding Cost</td>
+<td style="text-align: right;">6.946236</td>
+<td style="text-align: right;">6.861993</td>
+<td style="text-align: right;">7.19810</td>
+<td style="text-align: right;">7.063329</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Daily Average Transportation Cost</td>
+<td style="text-align: right;">11.150555</td>
+<td style="text-align: right;">11.029580</td>
+<td style="text-align: right;">11.18612</td>
+<td style="text-align: right;">11.273930</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total Daily Cost</td>
+<td style="text-align: right;">18.096791</td>
+<td style="text-align: right;">17.891573</td>
+<td style="text-align: right;">18.38422</td>
+<td style="text-align: right;">18.337259</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="national-distribution-centers" class="level3">
+<h3 class="anchored" data-anchor-id="national-distribution-centers">National Distribution Centers</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants for the national distribution center</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>inbound_cost_national <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>outbound_cost_national <span class="ot">&lt;-</span> <span class="fl">0.24</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the aggregated average daily demand (D) and standard deviation (sigma) for the national distribution center</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>D_national <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">c</span>(product3<span class="sc">$</span>Region1, product3<span class="sc">$</span>Region2, product3<span class="sc">$</span>Region3, product3<span class="sc">$</span>Region4))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>sigma_national <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">c</span>(product3<span class="sc">$</span>Region1, product3<span class="sc">$</span>Region2, product3<span class="sc">$</span>Region3, product3<span class="sc">$</span>Region4))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics for the national distribution center</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>D_L_R_national <span class="ot">&lt;-</span> D_national <span class="sc">*</span> (L <span class="sc">+</span> R)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>safety_stock_national <span class="ot">&lt;-</span> Z <span class="sc">*</span> sigma_national <span class="sc">*</span> <span class="fu">sqrt</span>(L <span class="sc">+</span> R)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>OUL_national <span class="ot">&lt;-</span> D_L_R_national <span class="sc">+</span> safety_stock_national</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>average_order_quantity_national <span class="ot">&lt;-</span> D_national <span class="sc">*</span> R</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>average_cycle_stock_national <span class="ot">&lt;-</span> average_order_quantity_national <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>average_inventory_national <span class="ot">&lt;-</span> average_cycle_stock_national <span class="sc">+</span> safety_stock_national</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>daily_average_inventory_holding_cost_national <span class="ot">&lt;-</span> average_inventory_national <span class="sc">*</span> holding_cost_per_unit_per_day</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>daily_average_transportation_cost_national <span class="ot">&lt;-</span> average_order_quantity_national <span class="sc">*</span> (inbound_cost_national <span class="sc">+</span> outbound_cost_national)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>total_daily_cost_national <span class="ot">&lt;-</span> daily_average_inventory_holding_cost_national <span class="sc">+</span> daily_average_transportation_cost_national</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>national_distribution_center_values <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Order Up to Level (OUL)"</span>, <span class="st">"Average Order Quantity"</span>, <span class="st">"Average Cycle Stock"</span>, </span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Average Safety Stock"</span>, <span class="st">"Average Inventory"</span>, <span class="st">"Daily Average Inventory Holding Cost"</span>, </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Daily Average Transportation Cost"</span>, <span class="st">"Total Daily Cost"</span>),</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">National =</span> <span class="fu">c</span>(OUL_national, average_order_quantity_national, average_cycle_stock_national, </span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>               safety_stock_national, average_inventory_national, daily_average_inventory_holding_cost_national, </span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>               daily_average_transportation_cost_national, total_daily_cost_national)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>national_distribution_center_values <span class="sc">%&gt;%</span> </span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: right;">National</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Order Up to Level (OUL)</td>
+<td style="text-align: right;">125.100162</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Order Quantity</td>
+<td style="text-align: right;">58.737084</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Cycle Stock</td>
+<td style="text-align: right;">29.368542</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Safety Stock</td>
+<td style="text-align: right;">17.415508</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Inventory</td>
+<td style="text-align: right;">46.784050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Daily Average Inventory Holding Cost</td>
+<td style="text-align: right;">7.017608</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Daily Average Transportation Cost</td>
+<td style="text-align: right;">17.033754</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total Daily Cost</td>
+<td style="text-align: right;">24.051362</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="comparative-table" class="level3">
+<h3 class="anchored" data-anchor-id="comparative-table">Comparative Table</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">merge</span>(regional_distribution_centers_values, national_distribution_center_values, <span class="at">by =</span> <span class="st">"Metric"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>comparison_table <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: right;">Region1</th>
+<th style="text-align: right;">Region2</th>
+<th style="text-align: right;">Region3</th>
+<th style="text-align: right;">Region4</th>
+<th style="text-align: right;">National</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Average Cycle Stock</td>
+<td style="text-align: right;">29.343566</td>
+<td style="text-align: right;">29.025210</td>
+<td style="text-align: right;">29.43716</td>
+<td style="text-align: right;">29.668238</td>
+<td style="text-align: right;">29.368542</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Inventory</td>
+<td style="text-align: right;">46.308240</td>
+<td style="text-align: right;">45.746622</td>
+<td style="text-align: right;">47.98734</td>
+<td style="text-align: right;">47.088858</td>
+<td style="text-align: right;">46.784050</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Order Quantity</td>
+<td style="text-align: right;">58.687131</td>
+<td style="text-align: right;">58.050420</td>
+<td style="text-align: right;">58.87431</td>
+<td style="text-align: right;">59.336476</td>
+<td style="text-align: right;">58.737084</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Safety Stock</td>
+<td style="text-align: right;">16.964674</td>
+<td style="text-align: right;">16.721412</td>
+<td style="text-align: right;">18.55018</td>
+<td style="text-align: right;">17.420620</td>
+<td style="text-align: right;">17.415508</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Daily Average Inventory Holding Cost</td>
+<td style="text-align: right;">6.946236</td>
+<td style="text-align: right;">6.861993</td>
+<td style="text-align: right;">7.19810</td>
+<td style="text-align: right;">7.063329</td>
+<td style="text-align: right;">7.017608</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Daily Average Transportation Cost</td>
+<td style="text-align: right;">11.150555</td>
+<td style="text-align: right;">11.029580</td>
+<td style="text-align: right;">11.18612</td>
+<td style="text-align: right;">11.273930</td>
+<td style="text-align: right;">17.033754</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Order Up to Level (OUL)</td>
+<td style="text-align: right;">124.557749</td>
+<td style="text-align: right;">123.147182</td>
+<td style="text-align: right;">126.48642</td>
+<td style="text-align: right;">126.204159</td>
+<td style="text-align: right;">125.100162</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total Daily Cost</td>
+<td style="text-align: right;">18.096791</td>
+<td style="text-align: right;">17.891573</td>
+<td style="text-align: right;">18.38422</td>
+<td style="text-align: right;">18.337259</td>
+<td style="text-align: right;">24.051362</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data for plotting</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>comparison_table_long <span class="ot">&lt;-</span> comparison_table <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Metric, <span class="at">names_to =</span> <span class="st">"Region"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comparison_table_long, <span class="fu">aes</span>(<span class="at">x =</span> Metric, <span class="at">y =</span> Value, <span class="at">fill =</span> Region)) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Region1"</span> <span class="ot">=</span> <span class="st">"#66c2a5"</span>, <span class="st">"Region2"</span> <span class="ot">=</span> <span class="st">"#66c2a5"</span>, </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Region3"</span> <span class="ot">=</span> <span class="st">"#66c2a5"</span>, <span class="st">"Region4"</span> <span class="ot">=</span> <span class="st">"#66c2a5"</span>, </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"National"</span> <span class="ot">=</span> <span class="st">"#fc8d62"</span>)) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Comparison of Key Inventory Metrics: Regional vs. National Distribution Centers"</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Distribution Center"</span>) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">22</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>)) <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="fl">5.5</span>, <span class="at">xmax =</span> <span class="fl">6.5</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">20</span>), <span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">alpha =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="fl">7.5</span>, <span class="at">xmax =</span> <span class="fl">8.5</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">27</span>), <span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">alpha =</span> <span class="fl">0.01</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw_supplychain3_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="1440"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="key-observations" class="level3">
+<h3 class="anchored" data-anchor-id="key-observations">Key Observations:</h3>
+<p>Daily Average Transportation Cost:</p>
+<ul>
+<li>The “Daily Average Transportation Cost” for the national distribution center is significantly higher compared to the regional distribution centers.</li>
+<li>The increased transportation cost is due to the higher outbound transportation cost associated with the national distribution center ($0.24 per unit) compared to the regional distribution centers ($0.10 per unit).</li>
+</ul>
+<p>Total Daily Cost:</p>
+<ul>
+<li>The “Total Daily Cost” for the national distribution center is also significantly higher than that of the regional distribution centers.</li>
+<li>The elevated total daily cost for the national distribution center is primarily driven by the increased daily average transportation cost.</li>
+</ul>
+<p>In conclusion, for Product 3, Same as Product 1 &amp; Product 2, using regional distribution centers is more cost-effective than consolidating into a national distribution center. The significantly higher transportation costs associated with the national distribution center outweigh any potential savings in other areas, leading to a higher total daily cost. Therefore, it is wiser to continue with the regional distribution centers to optimize cost efficiency for Product 3.</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
